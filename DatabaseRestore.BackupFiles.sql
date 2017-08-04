@@ -11,8 +11,8 @@ GO
 
 ALTER PROCEDURE [DatabaseRestore].[BackupFiles]
 	@bDebug BIT = 0
-  , @DirectoryToScan AS VARCHAR(500) --= '\\asm.lan\dcshare\Backup\NV\SQL\Prod\NVARTSDBP2\FULL\'
-  , @FilesToScan AS VARCHAR(500) --= 'ArtsApps_Full*.BAK'
+  , @DirectoryToScan AS VARCHAR(500) --= '\\firstfolder\sub-folder'
+  , @FilesToScan AS VARCHAR(500) --= 'DatabaseName_Full'
   , @AllFiles AS [NVARCHAR](MAX) OUTPUT
   , @ErrorOccured AS [BIT] OUTPUT
 AS
