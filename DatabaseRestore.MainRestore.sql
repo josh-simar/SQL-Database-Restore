@@ -54,7 +54,7 @@ AS
 	IF @AllFiles IS NULL
 		BEGIN
 			PRINT 'Finding Backup Files.';
-			EXECUTE [_ArtsDBAUtil].[DatabaseRestore].[BackupFiles] @bDebug = @bDebug,
+			EXECUTE [DatabaseRestore].[BackupFiles] @bDebug = @bDebug,
 				@DirectoryToScan = @DirectoryToScan,
 				@FilesToScan = @FilesToScan, @AllFiles = @AllFiles OUTPUT,
 				@ErrorOccured = @ErrorOccured OUTPUT;
@@ -73,7 +73,7 @@ AS
 			IF @FilesToUnpack = ''
 				BEGIN
 					PRINT 'Finding what the files are that need to be unpacked.';
-					EXECUTE [_ArtsDBAUtil].[DatabaseRestore].[FilesToUnpack] @bDebug = @bDebug,
+					EXECUTE [DatabaseRestore].[FilesToUnpack] @bDebug = @bDebug,
 						@bDWDrives = @bDWDrives, @AllFiles = @AllFiles,
 						@DatabaseName = @DatabaseName,
 						@vFilesToUnpack = @FilesToUnpack OUTPUT,
@@ -104,7 +104,7 @@ AS
 			  SELECT
 				[OWT].[DatabaseName]
 			  FROM
-				[_ArtsDBAUtil].[DatabaseRestore].[OverWriteToken] [OWT]
+				[DatabaseRestore].[OverWriteToken] [OWT]
 			  WHERE
 				@DatabaseName = [OWT].[DatabaseName]
 				AND @OverWrite = [OWT].[OverWriteToken]
@@ -119,7 +119,7 @@ AS
 						 SELECT
 							[OWT].[DatabaseName]
 						 FROM
-							[_ArtsDBAUtil].[DatabaseRestore].[OverWriteToken] [OWT]
+							[DatabaseRestore].[OverWriteToken] [OWT]
 						 WHERE
 							@DatabaseName = [OWT].[DatabaseName]
 					   ) IS NOT NULL
@@ -128,11 +128,11 @@ AS
 						SET	
 							[OverWriteToken] = NEWID()
 						FROM
-							[_ArtsDBAUtil].[DatabaseRestore].[OverWriteToken] [OWT]
+							[DatabaseRestore].[OverWriteToken] [OWT]
 						WHERE
 							[OWT].[DatabaseName] = @DatabaseName;
 					ELSE
-						INSERT	INTO [_ArtsDBAUtil].[DatabaseRestore].[OverWriteToken]
+						INSERT	INTO [DatabaseRestore].[OverWriteToken]
 								( [DatabaseName]
 								, [OverWriteToken]
 								)
@@ -144,7 +144,7 @@ AS
 					SELECT
 						@OverWrite = [OWT].[OverWriteToken]
 					FROM
-						[_ArtsDBAUtil].[DatabaseRestore].[OverWriteToken] [OWT]
+						[DatabaseRestore].[OverWriteToken] [OWT]
 					WHERE
 						@DatabaseName = [OWT].[DatabaseName];
 				  
@@ -178,22 +178,22 @@ AS
 
 	IF ( @bFinal = 1 )
 		BEGIN
-			EXECUTE [_ArtsDBAUtil].[DatabaseRestore].[CorrectOwner] @bDebug = @bDebug,
+			EXECUTE [DatabaseRestore].[CorrectOwner] @bDebug = @bDebug,
 				@DatabaseName = @DatabaseName;
 
-			EXECUTE [_ArtsDBAUtil].[DatabaseRestore].[RestoreRole] @bDebug = @bDebug,
+			EXECUTE [DatabaseRestore].[RestoreRole] @bDebug = @bDebug,
 				@DatabaseName = @DatabaseName;
 
-			EXECUTE [_ArtsDBAUtil].[DatabaseRestore].[RestorePermissions] @bDebug = @bDebug,
+			EXECUTE [DatabaseRestore].[RestorePermissions] @bDebug = @bDebug,
 				@DatabaseName = @DatabaseName;
 
-			EXECUTE [_ArtsDBAUtil].[DatabaseRestore].[usp_SetCompatibilityLevel] @bDebug = @bDebug,
+			EXECUTE [DatabaseRestore].[usp_SetCompatibilityLevel] @bDebug = @bDebug,
 				@DatabaseName = @DatabaseName;
 
 			DELETE
 				[OWT]
 			FROM
-				[_ArtsDBAUtil].[DatabaseRestore].[OverWriteToken] [OWT]
+				[DatabaseRestore].[OverWriteToken] [OWT]
 			WHERE
 				[OWT].[DatabaseName] = @DatabaseName;
 
