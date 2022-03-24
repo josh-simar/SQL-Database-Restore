@@ -210,7 +210,7 @@ AS
 
 	SELECT
 		[DriveLetter] = LEFT([mf].[physical_name], 1)
-	  , [CurrentSize] = SUM(CAST([mf].[size] AS BIGINT)) * 1024
+	  , [Size] = SUM(CAST([mf].[size] AS BIGINT)) * 1024
 	INTO
 		[#Current]
 	FROM
