@@ -39,7 +39,8 @@ AS
 		, [DifferentialBaseGUID] UNIQUEIDENTIFIER
 		, [IsReadOnly] BIT
 		, [IsPresent] BIT
-		, [TDEThumbprint] VARBINARY(20)
+		, [TDEThumbprint] VARBINARY(32)
+		, [SnapshotUrl] NVARCHAR(360)
 		);
 
 	CREATE TABLE [#UnpackedFiles2]
