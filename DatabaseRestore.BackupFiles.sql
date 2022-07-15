@@ -160,7 +160,7 @@ AS
 	SELECT
 		  @FileDate = (SELECT MAX([F2].[FileDate]) FROM [#Files2] [F2])
 	SELECT
-		  @FileTime = (SELECT MAX([F2].[FileTime]) FROM [#Files2] [F2] WHERE [F2].[FileDate] = @FileDate)
+		  @FileTime = (SELECT TOP (1) [F2].[FileTime] FROM [#Files2] [F2] WHERE [F2].[FileDate] = @FileDate ORDER BY CAST(F2.FileTime AS TIME) DESC)
 
 	SELECT
 		@AllFiles = STUFF((
